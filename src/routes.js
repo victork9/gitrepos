@@ -17,6 +17,7 @@ export default function App() {
                 <Stack.Screen options={{ header: () => { false } }} initialRouteName="LOGIN" name="LOGIN" component={LOGIN} />
                 <Stack.Screen  options={{ header: () => { false } }} name="Drawer" component={drawer} />
                 <Stack.Screen options={{ title:'Detalhes Do Repositório' }} initialRouteName="details" name="details" component={details} />
+               
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -14,6 +14,7 @@ export const TextTop = styled.Text`
 font-size: 20px;
 text-align:center;
 margin-left: 20%;
+
 `;
 
 // ${props => props.primary

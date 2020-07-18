@@ -1,13 +1,15 @@
-import * as React from 'react';
+import React,{useEffect} from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Repos from './Repos'
+import { View, Button } from 'react-native';
 import Favoritos from './Favoritos'
-import { useRoute } from '@react-navigation/native';
+import { useRoute,useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+  
     const routes = useRoute()
 
     return (
@@ -23,6 +25,8 @@ export default function App() {
                     (<MaterialIcons name="stars" size={30} color={focused ? "blue" : "grey"} />)
             }}
                 initialParams={routes.params} component={Favoritos} />
+           
+
         </Drawer.Navigator>
 
     );

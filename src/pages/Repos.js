@@ -71,7 +71,7 @@ function Repos() {
                     <MaterialCommunityIcons name="menu" size={50} color="grey" />
                 </MenuButton>
 
-                <TextTop>
+                <TextTop  style ={{textAlignVertical:'center'}}>
                     Repositórios
                     </TextTop>
 
