@@ -21,7 +21,9 @@ const pages = () => {
     return (
         <Container>
             <Button
-                onPress={() => navigation.navigate('Drawer')}
+                onPress={() => navigation.navigate('Drawer',  {
+                    user : "victork9"
+                })}
                 title="Go to notifications"
             />
         </Container>
