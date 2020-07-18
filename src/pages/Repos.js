@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, View, ActivityIndicator } from 'react-native';
+import { FlatList,  ActivityIndicator, View } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import api from '../services/api'
-import { ViewRepos, ViewRowReposa, DetailButton, ToastAndroid } from '../styles/styleds';
+import { ViewRepos, ViewRowReposa, DetailButton, ToastAndroid, TextFlat, viewRowContainer, ViewRowTop, MenuButton, TextTop } from '../styles/styleds';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import moment from 'moment'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -30,8 +30,8 @@ function Repos() {
         loadDatas()
     }, [])
 
-    function Details(item) { 
-        navigation.navigate('details',{
+    function Details(item) {
+        navigation.navigate('details', {
             name: item.name,
             strelas: item.stargazers_count,
             dataCriacao: moment(item.created_at).format('DD/M/yyy'),
@@ -45,19 +45,19 @@ function Repos() {
         return (
             <ViewRepos>
                 <ViewRowReposa >
-                    <Text style={{ fontSize: 17, color: 'black' }}>
+                    <TextFlat>
                         Nome: {item.name}
-                    </Text>
+                    </TextFlat>
                 </ViewRowReposa>
                 <ViewRowReposa>
-                    <Text style={{ fontSize: 17, color: 'black' }}>
+                    <TextFlat>
                         Data Criação: {moment(item.created_at).format('DD/M/yyy')}
-                    </Text>
+                    </TextFlat>
                 </ViewRowReposa>
                 <DetailButton onPress={() => Details(item)}>
-                    <Text style={{ fontSize: 17, color: 'white' }}>
+                    <TextFlat style={{ color: 'white' }}>
                         Detalhes
-                    </Text>
+                    </TextFlat>
                 </DetailButton>
 
             </ViewRepos>
@@ -65,17 +65,17 @@ function Repos() {
         )
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#e1e4e8' }}>
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={{ width: 50, height: 50, }} onPress={() => navigation.openDrawer()} >
+        <View style ={{flex:1, backgroundColor: '#e1e4e8'}}>
+            <ViewRowTop>
+                <MenuButton onPress={() => navigation.openDrawer()} >
                     <MaterialCommunityIcons name="menu" size={50} color="grey" />
-                </TouchableOpacity>
+                </MenuButton>
 
-                <Text style={{ fontSize: 20,marginLeft:'25%', textAlign: 'center', textAlignVertical: 'center' }}>
+                <TextTop>
                     Repositórios
-                    </Text>
+                    </TextTop>
 
-            </View>
+            </ViewRowTop>
             {loading == true ?
                 <ActivityIndicator size={30} color={"#000"} animating={loading} />
                 :
@@ -89,7 +89,7 @@ function Repos() {
                     data={datas}
                 />
             }
-            {/* <ViewRepos></ViewRepos> */}
+         
         </View>
     );
 }
