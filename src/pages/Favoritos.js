@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList, Text, ActivityIndicator } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import api from '../services/api'
 import { ViewRepos, ViewRowReposa } from '../styles/styleds';
@@ -9,12 +9,14 @@ function Favoritos() {
     console.log(routes.params.user)
     const [datas, setDatas] = useState([])
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true)
 
     async function loadDatas() {
         try {
             const response = await api.get(`/users/${routes.params.user}/starred`)
-          
+
             setDatas(response.data.splice(0, 5))
+            setLoading(false)
         } catch (error) {
 
         }
@@ -49,17 +51,20 @@ function Favoritos() {
     return (
         <>
             <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>
-            <MaterialIcons name="stars" size={30} color={"blue" } />
                 Favoritos
                 </Text>
-            <FlatList
-                onRefresh={() => loadDatas()}
-                refreshing={refreshing}
-                style={{ width: '100%', height: 300, marginTop: 20, marginBottom: 20 }}
-                keyExtractor={item => String(item.id)}
-                renderItem={renderItem}
-                data={datas}
-            />
+            {loading == true ?
+                <ActivityIndicator size={30} color={"#000"} animating={loading} />
+                :
+                <FlatList
+                    onRefresh={() => loadDatas()}
+                    refreshing={refreshing}
+                    style={{ width: '100%', height: 300, marginTop: 20, marginBottom: 20 }}
+                    keyExtractor={item => String(item.id)}
+                    renderItem={renderItem}
+                    data={datas}
+                />
+            }
             {/* <ViewRepos></ViewRepos> */}
         </>
     );
