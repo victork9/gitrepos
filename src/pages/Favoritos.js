@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, ActivityIndicator } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { FlatList, Text, ActivityIndicator, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import api from '../services/api'
-import { ViewRepos, ViewRowReposa } from '../styles/styleds';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { ViewRepos, ViewRowReposa, DetailButton } from '../styles/styleds';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import moment from 'moment'
 function Favoritos() {
     const routes = useRoute()
-    console.log(routes.params.user)
+
     const [datas, setDatas] = useState([])
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true)
+    const navigation = useNavigation()
 
     async function loadDatas() {
         try {
@@ -18,13 +20,27 @@ function Favoritos() {
             setDatas(response.data.splice(0, 5))
             setLoading(false)
         } catch (error) {
-
+            ToastAndroid.show("Falha na conexão", ToastAndroid.LONG)
+            setLoading(false)
         }
     }
+
 
     useEffect(() => {
         loadDatas()
     }, [])
+
+    function Details(item) {
+
+        navigation.navigate('details',{
+            name: item.name,
+            strelas: item.stargazers_count,
+            dataCriacao: moment(item.created_at).format('DD/M/yyy'),
+            linguagem: item.language,
+            linkRepo: item.html_url,
+            description: item.description
+        })
+    }
 
     function renderItem({ item }) {
         return (
@@ -36,23 +52,28 @@ function Favoritos() {
                 </ViewRowReposa>
                 <ViewRowReposa>
                     <Text style={{ fontSize: 17, }}>
-                        Descrição: {item.description || "Sem Descrição"}
+                        Data Criação: {moment(item.created_at).format('DD/M/yyy')}
                     </Text>
                 </ViewRowReposa>
-                <ViewRowReposa >
-                    <Text style={{ fontSize: 17, }}>
-                        Linguagem: {item.language || "Sem Descrição"}
+                <DetailButton onPress={() => Details(item)} >
+                    <Text style={{ fontSize: 17, color: 'white' }}>
+                        Detalhes
                     </Text>
-                </ViewRowReposa>
+                </DetailButton>
             </ViewRepos>
 
         )
     }
     return (
         <>
-            <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>
-                Favoritos
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity style={{ width: 50, height: 50, }} onPress={() => navigation.openDrawer()} >
+                    <MaterialCommunityIcons name="menu" size={50} color="grey" />
+                </TouchableOpacity>
+                <Text style={{ fontSize: 20,marginLeft:'25%', textAlign: 'center', marginTop: 10 }}>
+                    Favoritos
                 </Text>
+            </View>
             {loading == true ?
                 <ActivityIndicator size={30} color={"#000"} animating={loading} />
                 :
