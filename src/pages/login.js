@@ -1,16 +1,21 @@
 import React from 'react';
-import { View, Button, } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
-flex: 1,
-alignItems: 'center',
-justifyContent: 'center'
+const Container = styled.View`
+flex: 1;
+align-items: center;
+justify-Content: center;
 `;
 
+const Button = styled.TouchableOpacity`
+background-color:blue;
+width: 100%;
+height: 40px;
+`;
 // import { Container } from './styles';
-const Touch = styled.TouchableOpacit
+
 const pages = () => {
     const navigation = useNavigation()
     return (
